@@ -7,9 +7,9 @@ endif
 let g:loaded_oscyank = 1
 
 " Send a string to the terminal's clipboard using the OSC52 sequence.
-function! YankOSC52()
+function! YankOSC52() range
   let str = s:get_visual_selection()
-  let length = strlen(a:str)
+  let length = strlen(str)
   let limit = get(g:, 'oscyank_max_length', 100000)
 
   if length > limit
@@ -22,42 +22,32 @@ function! YankOSC52()
   " Explicitly use a supported terminal.
   if exists('g:oscyank_term')
     if get(g:, 'osc52_term') == 'tmux'
-      let osc52 = s:get_OSC52_tmux(a:str)
+      let osc52 = s:get_OSC52_tmux(str)
     elseif get(g:, 'osc52_term') == 'screen'
-      let osc52 = s:get_OSC52_DCS(a:str)
+      let osc52 = s:get_OSC52_DCS(str)
     endif
   endif
 
   " Fallback to auto-detection.
   if !exists('l:osc52')
     if !empty($TMUX)
-      let osc52 = s:get_OSC52_tmux(a:str)
+      let osc52 = s:get_OSC52_tmux(str)
     elseif match($TERM, 'screen') > -1
-      let osc52 = s:get_OSC52_DCS(a:str)
+      let osc52 = s:get_OSC52_DCS(str)
     else
-      let osc52 = s:get_OSC52(a:str)
+      let osc52 = s:get_OSC52(str)
     endif
   endif
 
   call s:raw_echo(osc52)
-  echo 'Copied ' . len . 'bytes'
+  echo 'Copied ' . length . ' bytes'
 endfunction
 
 " Get visually selected text.
 " From https://stackoverflow.com/questions/1533565/how-to-get-visually-selected-text-in-vimscript
 function! s:get_visual_selection()
-  if mode() == "v"
-    let [line_start, column_start] = getpos("v")[1:2]
-    let [line_end, column_end] = getpos(".")[1:2]
-  else
-    let [line_start, column_start] = getpos("'<")[1:2]
-    let [line_end, column_end] = getpos("'>")[1:2]
-  end
-  " In case the text selection was made backwards
-  if line2byte(line_start) + column_start > line2byte(line_end) + column_end
-    let [line_start, column_start, line_end, column_end] =
-    \   [line_end, column_end, line_start, column_start]
-  end
+  let [line_start, column_start] = getpos("'<")[1:2]
+  let [line_end, column_end] = getpos("'>")[1:2]
   let lines = getline(line_start, line_end)
   if len(lines) == 0
     return ''
@@ -163,3 +153,5 @@ endfunction
 function! s:str2bytes(str)
   return map(range(len(a:str)), 'char2nr(a:str[v:val])')
 endfunction
+
+command! -range OSCYank <line1>,<line2>call YankOSC52()
