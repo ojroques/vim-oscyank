@@ -21,10 +21,12 @@ function! YankOSC52() range
 
   " Explicitly use a supported terminal.
   if exists('g:oscyank_term')
-    if get(g:, 'osc52_term') == 'tmux'
+    if get(g:, 'oscyank_term') == 'tmux'
       let osc52 = s:get_OSC52_tmux(str)
-    elseif get(g:, 'osc52_term') == 'screen'
+    elseif get(g:, 'oscyank_term') == 'screen'
       let osc52 = s:get_OSC52_DCS(str)
+    elseif get(g:, 'oscyank_term') == 'kitty'
+      let osc52 = s:get_OSC52_kitty(str)
     endif
   endif
 
@@ -34,6 +36,8 @@ function! YankOSC52() range
       let osc52 = s:get_OSC52_tmux(str)
     elseif match($TERM, 'screen') > -1
       let osc52 = s:get_OSC52_DCS(str)
+    elseif match($TERM, 'kitty') > -1
+      let osc52 = s:get_OSC52_kitty(str)
     else
       let osc52 = s:get_OSC52(str)
     endif
@@ -93,6 +97,13 @@ function! s:get_OSC52_DCS(str)
   " Now wrap the whole thing in <start-dcs><start-osc52>...<end-osc52><end-dcs>.
   let b64 = "\eP\e]52;c;" . b64 . "\x07\e\x5c"
   return b64
+endfunction
+
+" Kitty requires a flush of the clipboard before accepting a new string.
+" https://sw.kovidgoyal.net/kitty/protocol-extensions.html#pasting-to-clipboard
+function! s:get_OSC52_kitty(str)
+  call s:raw_echo("\e]52;c;!\x07")
+  return s:get_OSC52(a:str)
 endfunction
 
 " Echo a string to the terminal without munging the escape sequences.

@@ -47,11 +47,11 @@ supports it, you can raise this limit with:
 let g:oscyank_max_length = 1000000
 ```
 
-The plugin treats tmux and screen differently than other terminal emulators.
-The plugin automatically detects when one of these terminal is used but you can
-force that behavior with:
+The plugin treats *tmux*, *screen* and *kitty* differently than other terminal
+emulators. The plugin automatically detects when one of these terminal is used
+but you can force that behavior with:
 ```vim
-let g:oscyank_term = 'term'  " or 'screen'
+let g:oscyank_term = 'tmux'  " also valid: screen', 'kitty'
 ```
 
 ## Credits
