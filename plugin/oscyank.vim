@@ -7,7 +7,8 @@ endif
 let g:loaded_oscyank = 1
 
 " Send a string to the terminal's clipboard using the OSC52 sequence.
-function! SendViaOSC52(str)
+function! YankOSC52()
+  let str = s:get_visual_selection()
   let length = strlen(a:str)
   let limit = get(g:, 'oscyank_max_length', 100000)
 
@@ -38,8 +39,32 @@ function! SendViaOSC52(str)
     endif
   endif
 
-  call s:rawecho(osc52)
+  call s:raw_echo(osc52)
   echo 'Copied ' . len . 'bytes'
+endfunction
+
+" Get visually selected text.
+" From https://stackoverflow.com/questions/1533565/how-to-get-visually-selected-text-in-vimscript
+function! s:get_visual_selection()
+  if mode() == "v"
+    let [line_start, column_start] = getpos("v")[1:2]
+    let [line_end, column_end] = getpos(".")[1:2]
+  else
+    let [line_start, column_start] = getpos("'<")[1:2]
+    let [line_end, column_end] = getpos("'>")[1:2]
+  end
+  " In case the text selection was made backwards
+  if line2byte(line_start) + column_start > line2byte(line_end) + column_end
+    let [line_start, column_start, line_end, column_end] =
+    \   [line_end, column_end, line_start, column_start]
+  end
+  let lines = getline(line_start, line_end)
+  if len(lines) == 0
+    return ''
+  endif
+  let lines[-1] = lines[-1][: column_end - (&selection == 'inclusive' ? 1 : 2)]
+  let lines[0] = lines[0][column_start - 1:]
+  return join(lines, "\n")
 endfunction
 
 " This function base64's the entire string and wraps it in a single OSC52.
@@ -66,27 +91,22 @@ endfunction
 " It imposes a small max length to DCS sequences, so we send in chunks.
 function! s:get_OSC52_DCS(str)
   let b64 = s:b64encode(a:str, 76)
-
   " Remove the trailing newline.
   let b64 = substitute(b64, '\n*$', '', '')
-
   " Replace each newline with an <end-dcs><start-dcs> pair.
   let b64 = substitute(b64, '\n', "\e/\eP", "g")
-
   " (except end-of-dcs is "ESC \", begin is "ESC P", and I can't figure out
   "  how to express "ESC \ ESC P" in a single string.  So, the first substitute
   "  uses "ESC / ESC P", and the second one swaps out the "/".  It seems like
   "  there should be a better way.)
   let b64 = substitute(b64, '/', '\', 'g')
-
   " Now wrap the whole thing in <start-dcs><start-osc52>...<end-osc52><end-dcs>.
   let b64 = "\eP\e]52;c;" . b64 . "\x07\e\x5c"
-
   return b64
 endfunction
 
 " Echo a string to the terminal without munging the escape sequences.
-function! s:rawecho(str)
+function! s:raw_echo(str)
   if filewritable('/dev/stderr')
     call writefile([a:str], '/dev/stderr', 'b')
   else
