@@ -101,11 +101,15 @@ endfunction
 
 " Echo a string to the terminal without munging the escape sequences.
 function! s:raw_echo(str)
-  if filewritable('/dev/stderr')
-    call writefile([a:str], '/dev/stderr', 'b')
+  if has('nvim')
+    call chansend(v:stderr, a:str)
   else
-    exec("silent! !echo " . shellescape(a:str))
-    redraw!
+    if filewritable('/dev/fd/2')
+      call writefile([a:str], '/dev/fd/2', 'b')
+    else
+      exec("silent! !echo " . shellescape(a:str))
+      redraw!
+    endif
   endif
 endfunction
 
