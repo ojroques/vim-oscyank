@@ -51,7 +51,7 @@ The plugin treats *tmux*, *screen* and *kitty* differently than other terminal
 emulators. The plugin automatically detects when one of these terminal is used
 but you can force that behavior with:
 ```vim
-let g:oscyank_term = 'tmux'  " also valid: screen', 'kitty'
+let g:oscyank_term = 'tmux'  " valid: 'screen', 'kitty'
 ```
 
 ## Credits
