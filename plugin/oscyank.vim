@@ -100,7 +100,7 @@ endfunction
 
 " Echo a string to the terminal without munging the escape sequences.
 function! s:raw_echo(str)
-  if has('nvim')
+  if has('win32') && has('nvim')
     call chansend(v:stderr, a:str)
   else
     if filewritable('/dev/fd/2')
