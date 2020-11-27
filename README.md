@@ -6,24 +6,22 @@ sequence.
 
 When this sequence is emitted by Vim, the terminal will copy the given text
 into the system clipboard. **This is totally location independent**, users can
-copy from anywhere *including from remote SSH sessions*.
+copy from anywhere including from remote SSH sessions.
 
 The only requirement is that the terminal must support the sequence. Here is
-a non-exhaustive list of terminal emulators supporting or not OSC52 (as of
-November 2020):
+a non-exhaustive list of the status of popular terminal emulators regarding
+OSC52 (as of November 2020):
 
 | Terminal | OCS52 support |
 |----------|:-------------:|
 | [Alacritty](https://github.com/alacritty/alacritty) | **yes** |
-| [GNOME Terminal](https://github.com/GNOME/gnome-terminal) | [not yet](https://gitlab.gnome.org/GNOME/vte/-/issues/125) |
+| [GNOME Terminal](https://github.com/GNOME/gnome-terminal) (and other VTE-based terminals) | [not yet](https://bugzilla.gnome.org/show_bug.cgi?id=795774) |
 | [hterm (Chromebook)](https://chromium.googlesource.com/apps/libapps/+/master/README.md) | [**yes**](https://chromium.googlesource.com/apps/libapps/+/master/nassh/doc/FAQ.md#Is-OSC-52-aka-clipboard-operations_supported) |
 | [iTerm2](https://iterm2.com/) | **yes** |
 | [kitty](https://github.com/kovidgoyal/kitty) | [**yes**](https://sw.kovidgoyal.net/kitty/protocol-extensions.html#pasting-to-clipboard) |
-| [rxvt](http://rxvt.sourceforge.net/) & [rxvt-unicode](http://software.schmorp.de/pkg/rxvt-unicode.html) | **yes** |
 | [screen](https://www.gnu.org/software/screen/) | **yes** |
 | [tmux](https://github.com/tmux/tmux) | **yes** |
 | [Windows Terminal](https://github.com/microsoft/terminal) | **yes** |
-| [xterm](https://invisible-island.net/xterm/) | **yes** |
 
 ## Installation
 Using [vim-plug](https://github.com/junegunn/vim-plug):
@@ -36,38 +34,38 @@ call plug#end()
 ## Usage
 Enter Visual mode, select your text and run `:OSCYank<CR>`.
 
-Or map the command in your config:
+You may want to map the command:
 ```vim
 vnoremap <leader>c :OSCYank<CR>
 ```
 
 By default you can copy up to 100000 characters at once. If your terminal
-supports it, you can raise this limit with:
+supports it, you can raise that limit with:
 ```vim
 let g:oscyank_max_length = 1000000
 ```
 
 The plugin treats *tmux*, *screen* and *kitty* differently than other terminal
-emulators. The plugin automatically detects when one of these terminal is used
-but you can force that behavior with:
+emulators. The plugin should automatically detects the terminal used but you
+can bypass detection with:
 ```vim
-let g:oscyank_term = 'tmux'  " valid: 'screen', 'kitty'
+let g:oscyank_term = 'tmux'  " or 'screen', 'kitty'
 ```
 
-If you prefer to copy to the clipboard the content of a register, use:
+If you prefer to copy text from a particular register, use:
 ```vim
-nnoremap <leader>c :call YankOSC52(getreg('"'))<CR>  " will copy the content of '"'
+nnoremap <leader>c :call YankOSC52(getreg('+'))<CR>  " will copy text from register '+'
 ```
 
 ## Features
 There are already Vim plugins implementing OSC52. However this plugin fixes
 several issues I've had with them:
 * It supports Neovim.
+* It supports Windows.
 * It makes the maximum length of strings configurable.
-* It supports [kitty](https://github.com/kovidgoyal/kitty) which slightly
-  [modifies the OSC52 protocol](https://sw.kovidgoyal.net/kitty/protocol-extensions.html#pasting-to-clipboard).
-* It does not require users to edit their default register (`"`) and leaves
-  it completely untouched.
+* It supports [kitty](https://github.com/kovidgoyal/kitty) which has a 
+  [slightly modified OSC52 protocol](https://sw.kovidgoyal.net/kitty/protocol-extensions.html#pasting-to-clipboard).
+* It does not mandate users to overwrite their default register (`"`).
 
 ## Credits
 The code is derived from
