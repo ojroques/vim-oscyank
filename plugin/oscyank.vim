@@ -11,38 +11,34 @@ function! YankOSC52() range
   let str = s:get_visual_selection()
   let length = strlen(str)
   let limit = get(g:, 'oscyank_max_length', 100000)
+  let osc52_key = 'default'
+  let osc52_table = {
+        \ 'default': function('s:get_OSC52'),
+        \ 'kitty': function('s:get_OSC52_kitty'),
+        \ 'screen': function('s:get_OSC52_DCS'),
+        \ 'tmux': function('s:get_OSC52_tmux'),
+        \ }
 
   if length > limit
     echohl WarningMsg
-    echo 'Selection has length ' . length . ' but limit is ' . limit
+    echo 'WARNING: Selection has length ' . length . ' but limit is ' . limit
     echohl None
     return
   endif
 
-  " Explicitly use a supported terminal.
-  if exists('g:oscyank_term')
-    if get(g:, 'oscyank_term') == 'tmux'
-      let osc52 = s:get_OSC52_tmux(str)
-    elseif get(g:, 'oscyank_term') == 'screen'
-      let osc52 = s:get_OSC52_DCS(str)
-    elseif get(g:, 'oscyank_term') == 'kitty'
-      let osc52 = s:get_OSC52_kitty(str)
-    endif
-  endif
-
-  " Fallback to auto-detection.
-  if !exists('l:osc52')
+  if exists('g:oscyank_term')  " Explicitly use a supported terminal.
+    let osc52_key = get(g:, 'oscyank_term')
+  else  " Fallback to auto-detection.
     if !empty($TMUX)
-      let osc52 = s:get_OSC52_tmux(str)
+      let osc52_key = 'tmux'
     elseif match($TERM, 'screen') > -1
-      let osc52 = s:get_OSC52_DCS(str)
+      let osc52_key = 'screen'
     elseif match($TERM, 'kitty') > -1
-      let osc52 = s:get_OSC52_kitty(str)
-    else
-      let osc52 = s:get_OSC52(str)
+      let osc52_key = 'kitty'
     endif
   endif
 
+  let osc52 = get(osc52_table, osc52_key, osc52_table['default'])(str)
   call s:raw_echo(osc52)
   echo 'Copied ' . length . ' bytes'
 endfunction
@@ -118,7 +114,8 @@ let s:b64_table = [
       \ "A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P",
       \ "Q","R","S","T","U","V","W","X","Y","Z","a","b","c","d","e","f",
       \ "g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v",
-      \ "w","x","y","z","0","1","2","3","4","5","6","7","8","9","+","/"]
+      \ "w","x","y","z","0","1","2","3","4","5","6","7","8","9","+","/",
+      \ ]
 
 " Encode a string of bytes in base 64.
 " If size is > 0 the output will be line wrapped every `size` chars.
