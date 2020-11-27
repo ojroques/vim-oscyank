@@ -6,10 +6,9 @@ if exists('g:loaded_oscyank') || &compatible
 endif
 let g:loaded_oscyank = 1
 
-" Send a string to the terminal's clipboard using the OSC52 sequence.
-function! YankOSC52() range
-  let str = s:get_visual_selection()
-  let length = strlen(str)
+" Send a string to the terminal's clipboard using OSC52.
+function! YankOSC52(str)
+  let length = strlen(a:str)
   let limit = get(g:, 'oscyank_max_length', 100000)
   let osc52_key = 'default'
   let osc52_table = {
@@ -38,14 +37,14 @@ function! YankOSC52() range
     endif
   endif
 
-  let osc52 = get(osc52_table, osc52_key, osc52_table['default'])(str)
+  let osc52 = get(osc52_table, osc52_key, osc52_table['default'])(a:str)
   call s:raw_echo(osc52)
   echo 'Copied ' . length . ' bytes'
 endfunction
 
-" Get visually selected text.
+" Send the visual selection to the terminal's clipboard using OSC52.
 " https://stackoverflow.com/questions/1533565/how-to-get-visually-selected-text-in-vimscript
-function! s:get_visual_selection()
+function! VisualOSC52() range
   let [line_start, column_start] = getpos("'<")[1:2]
   let [line_end, column_end] = getpos("'>")[1:2]
   let lines = getline(line_start, line_end)
@@ -54,7 +53,7 @@ function! s:get_visual_selection()
   endif
   let lines[-1] = lines[-1][: column_end - (&selection == 'inclusive' ? 1 : 2)]
   let lines[0] = lines[0][column_start - 1:]
-  return join(lines, "\n")
+  call YankOSC52(join(lines, "\n"))
 endfunction
 
 " This function base64's the entire string and wraps it in a single OSC52.
@@ -163,4 +162,4 @@ function! s:str2bytes(str)
   return map(range(len(a:str)), 'char2nr(a:str[v:val])')
 endfunction
 
-command! -range OSCYank <line1>,<line2>call YankOSC52()
+command! -range OSCYank <line1>,<line2>call VisualOSC52()

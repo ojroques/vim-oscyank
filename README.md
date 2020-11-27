@@ -54,6 +54,11 @@ but you can force that behavior with:
 let g:oscyank_term = 'tmux'  " valid: 'screen', 'kitty'
 ```
 
+If you prefer to copy to the clipboard the content of a register, use:
+```vim
+nnoremap <leader>c :call YankOSC52(getreg('"'))<CR>  " will copy the content of '"'
+```
+
 ## Features
 There are already Vim plugins implementing OSC52. However this plugin fixes
 several issues I've had with them:
