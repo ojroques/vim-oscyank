@@ -1,7 +1,7 @@
 # vim-oscyank
 
-A Vim plugin to copy text to the system clipboard from anywhere using the
-[ANSI OCS52](https://invisible-island.net/xterm/ctlseqs/ctlseqs.html#h3-Operating-System-Commands)
+A Vim / Neovim plugin to copy text to the system clipboard from anywhere using
+the [ANSI OCS52](https://invisible-island.net/xterm/ctlseqs/ctlseqs.html#h3-Operating-System-Commands)
 sequence.
 
 When this sequence is emitted by Vim, the terminal will copy the given text
@@ -53,6 +53,16 @@ but you can force that behavior with:
 ```vim
 let g:oscyank_term = 'tmux'  " valid: 'screen', 'kitty'
 ```
+
+## Features
+There are already Vim plugins implementing OSC52. However this plugin fixes
+several issues I've had with them:
+* It supports Neovim.
+* It makes the maximum length of strings configurable.
+* It supports [kitty](https://github.com/kovidgoyal/kitty) which slightly
+  [modifies the OSC52 protocol](https://sw.kovidgoyal.net/kitty/protocol-extensions.html#pasting-to-clipboard).
+* It does not require users to edit their default register (`"`) and leaves
+  it completely untouched.
 
 ## Credits
 The code is derived from
