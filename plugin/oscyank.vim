@@ -11,12 +11,6 @@ function! YankOSC52(str)
   let length = strlen(a:str)
   let limit = get(g:, 'oscyank_max_length', 100000)
   let osc52_key = 'default'
-  let osc52_table = {
-        \ 'default': function('s:get_OSC52'),
-        \ 'kitty': function('s:get_OSC52_kitty'),
-        \ 'screen': function('s:get_OSC52_DCS'),
-        \ 'tmux': function('s:get_OSC52_tmux'),
-        \ }
 
   if length > limit
     echohl WarningMsg
@@ -37,7 +31,7 @@ function! YankOSC52(str)
     endif
   endif
 
-  let osc52 = get(osc52_table, osc52_key, osc52_table['default'])(a:str)
+  let osc52 = get(s:osc52_table, osc52_key, s:osc52_table['default'])(a:str)
   call s:raw_echo(osc52)
   echo 'Copied ' . length . ' bytes'
 endfunction
@@ -112,14 +106,6 @@ function! s:raw_echo(str)
   endif
 endfunction
 
-" Lookup table for s:b64encode.
-let s:b64_table = [
-      \ "A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P",
-      \ "Q","R","S","T","U","V","W","X","Y","Z","a","b","c","d","e","f",
-      \ "g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v",
-      \ "w","x","y","z","0","1","2","3","4","5","6","7","8","9","+","/",
-      \ ]
-
 " Encode a string of bytes in base 64.
 " If size is > 0 the output will be line wrapped every `size` chars.
 function! s:b64encode(str, size)
@@ -155,11 +141,28 @@ function! s:b64encode(str, size)
     let chunked .= strpart(b64, 0, a:size) . "\n"
     let b64 = strpart(b64, a:size)
   endwhile
+
   return chunked
 endfunction
 
 function! s:str2bytes(str)
   return map(range(len(a:str)), 'char2nr(a:str[v:val])')
 endfunction
+
+" Lookup table for g:oscyank_term.
+let s:osc52_table = {
+      \ 'default': function('s:get_OSC52'),
+      \ 'kitty': function('s:get_OSC52_kitty'),
+      \ 'screen': function('s:get_OSC52_DCS'),
+      \ 'tmux': function('s:get_OSC52_tmux'),
+      \ }
+
+" Lookup table for s:b64encode.
+let s:b64_table = [
+      \ "A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P",
+      \ "Q","R","S","T","U","V","W","X","Y","Z","a","b","c","d","e","f",
+      \ "g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v",
+      \ "w","x","y","z","0","1","2","3","4","5","6","7","8","9","+","/",
+      \ ]
 
 command! -range OSCYank <line1>,<line2>call VisualOSC52()
