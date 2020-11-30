@@ -57,14 +57,25 @@ If you prefer to copy text from a particular register, use:
 nnoremap <leader>c :call YankOSC52(getreg('+'))<CR>  " will copy text from register '+'
 ```
 
+You can also define an autocommand to immediately copy after a yank operation
+(use `v:event.regname is ''` for the unnamed register):
+```vim
+augroup OSCYank
+  autocmd!
+  autocmd TextYankPost *
+    \ if v:event.operator is 'y' && v:event.regname is '+' | :call YankOSC52(getreg('+')) | endif
+augroup END
+```
+
 ## Features
 There are already Vim plugins implementing OSC52. However this plugin fixes
 several issues I've had with them:
 * It supports Neovim.
 * It supports Windows.
 * It makes the maximum length of strings configurable.
-* It supports [kitty](https://github.com/kovidgoyal/kitty) which has a 
-  [slightly modified OSC52 protocol](https://sw.kovidgoyal.net/kitty/protocol-extensions.html#pasting-to-clipboard).
+* It supports [kitty](https://github.com/kovidgoyal/kitty) which has a
+  [slightly modified OSC52 protocol](https://sw.kovidgoyal.net/kitty/protocol-extensions.html#pasting-to-clipboard)
+  by default.
 * It does not mandate users to overwrite their default register (`"`).
 
 ## Credits
