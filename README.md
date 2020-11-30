@@ -49,7 +49,7 @@ The plugin treats *tmux*, *screen* and *kitty* differently than other terminal
 emulators. The plugin should automatically detects the terminal used but you
 can bypass detection with:
 ```vim
-let g:oscyank_term = 'tmux'  " or 'screen', 'kitty'
+let g:oscyank_term = 'tmux'  " or 'screen', 'kitty', 'default'
 ```
 
 If you prefer to copy text from a particular register, use:
