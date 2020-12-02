@@ -110,28 +110,28 @@ endfunction
 " If size is > 0 the output will be line wrapped every `size` chars.
 function! s:b64encode(str, size)
   let bytes = s:str2bytes(a:str)
-  let b64 = []
+  let b64_arr = []
 
   for i in range(0, len(bytes) - 1, 3)
     let n = bytes[i] * 0x10000
           \ + get(bytes, i + 1, 0) * 0x100
           \ + get(bytes, i + 2, 0)
-    call add(b64, s:b64_table[n / 0x40000])
-    call add(b64, s:b64_table[n / 0x1000 % 0x40])
-    call add(b64, s:b64_table[n / 0x40 % 0x40])
-    call add(b64, s:b64_table[n % 0x40])
+    call add(b64_arr, s:b64_table[n / 0x40000])
+    call add(b64_arr, s:b64_table[n / 0x1000 % 0x40])
+    call add(b64_arr, s:b64_table[n / 0x40 % 0x40])
+    call add(b64_arr, s:b64_table[n % 0x40])
   endfor
 
   if len(bytes) % 3 == 1
-    let b64[-1] = '='
-    let b64[-2] = '='
+    let b64_arr[-1] = '='
+    let b64_arr[-2] = '='
   endif
 
   if len(bytes) % 3 == 2
-    let b64[-1] = '='
+    let b64_arr[-1] = '='
   endif
 
-  let b64 = join(b64, '')
+  let b64 = join(b64_arr, '')
   if a:size <= 0
     return b64
   endif
