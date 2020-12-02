@@ -67,7 +67,7 @@ endfunction
 
 " This function base64's the entire source, wraps it in a single OSC52, and then
 " breaks the result into small chunks which are each wrapped in a DCS sequence.
-" This is appropriate when running on `screen`.  Screen doesn't support OSC52,
+" This is appropriate when running on `screen`. Screen doesn't support OSC52,
 " but will pass the contents of a DCS sequence to the outer terminal unchanged.
 " It imposes a small max length to DCS sequences, so we send in chunks.
 function! s:get_OSC52_DCS(str)
@@ -77,9 +77,9 @@ function! s:get_OSC52_DCS(str)
   " Replace each newline with an <end-dcs><start-dcs> pair.
   let b64 = substitute(b64, '\n', "\e/\eP", "g")
   " (except end-of-dcs is "ESC \", begin is "ESC P", and I can't figure out
-  "  how to express "ESC \ ESC P" in a single string.  So, the first substitute
-  "  uses "ESC / ESC P", and the second one swaps out the "/".  It seems like
-  "  there should be a better way.)
+  " how to express "ESC \ ESC P" in a single string. So the first substitute
+  " uses "ESC / ESC P" and the second one swaps out the "/". It seems like
+  " there should be a better way.)
   let b64 = substitute(b64, '/', '\', 'g')
   " Now wrap the whole thing in <start-dcs><start-osc52>...<end-osc52><end-dcs>.
   return "\eP\e]52;c;" . b64 . "\x07\e\x5c"
