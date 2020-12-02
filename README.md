@@ -63,7 +63,7 @@ You can also define an autocommand to immediately copy after a yank operation
 augroup OSCYank
   autocmd!
   autocmd TextYankPost *
-    \ if v:event.operator is 'y' && v:event.regname is '+' | :call YankOSC52(getreg('+')) | endif
+    \ if v:event.operator is 'y' && v:event.regname is '+' | call YankOSC52(getreg('+')) | endif
 augroup END
 ```
 
