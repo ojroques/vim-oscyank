@@ -39,6 +39,22 @@ You may want to map the command:
 vnoremap <leader>c :OSCYank<CR>
 ```
 
+If you prefer to copy text from a particular register, use:
+```vim
+nnoremap <leader>c :call YankOSC52(getreg('+'))<CR>  " will copy text from register '+'
+```
+
+You can also define an autocommand to immediately copy after a yank operation
+(for the unnamed register `"`, use `v:event.regname is ''`):
+```vim
+augroup OSCYank
+  autocmd!
+  autocmd TextYankPost *
+    \ if v:event.operator is 'y' && v:event.regname is '+' | call YankOSC52(getreg('+')) | endif
+augroup END
+```
+
+## Configuration
 By default you can copy up to 100000 characters at once. If your terminal
 supports it, you can raise that limit with:
 ```vim
@@ -52,31 +68,16 @@ can bypass detection with:
 let g:oscyank_term = 'tmux'  " or 'screen', 'kitty', 'default'
 ```
 
-If you prefer to copy text from a particular register, use:
-```vim
-nnoremap <leader>c :call YankOSC52(getreg('+'))<CR>  " will copy text from register '+'
-```
-
-You can also define an autocommand to immediately copy after a yank operation
-(use `v:event.regname is ''` for the unnamed register):
-```vim
-augroup OSCYank
-  autocmd!
-  autocmd TextYankPost *
-    \ if v:event.operator is 'y' && v:event.regname is '+' | call YankOSC52(getreg('+')) | endif
-augroup END
-```
-
 ## Features
 There are already Vim plugins implementing OSC52. However this plugin fixes
 several issues I've had with them:
 * It supports Neovim.
 * It supports Windows.
+* It does not mandate users to overwrite their unnamed register (`"`).
 * It makes the maximum length of strings configurable.
 * It supports [kitty](https://github.com/kovidgoyal/kitty) which has a
   [slightly modified OSC52 protocol](https://sw.kovidgoyal.net/kitty/protocol-extensions.html#pasting-to-clipboard)
   by default.
-* It does not mandate users to overwrite their default register (`"`).
 
 ## Credits
 The code is derived from
