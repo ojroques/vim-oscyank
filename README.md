@@ -41,17 +41,13 @@ vnoremap <leader>c :OSCYank<CR>
 
 If you prefer to copy text from a particular register, use:
 ```vim
-nnoremap <leader>c :call YankOSC52(getreg('+'))<CR>  " will copy text from register '+'
+:OSCYankReg +<CR>  " will copy text from register '+'
 ```
 
 You can also define an autocommand to immediately copy after a yank operation
 (for the unnamed register `"`, use `v:event.regname is ''`):
 ```vim
-augroup OSCYank
-  autocmd!
-  autocmd TextYankPost *
-    \ if v:event.operator is 'y' && v:event.regname is '+' | call YankOSC52(getreg('+')) | endif
-augroup END
+autocmd TextYankPost * if v:event.operator is 'y' && v:event.regname is '+' | OSCYankReg + | endif
 ```
 
 ## Configuration
