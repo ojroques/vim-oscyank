@@ -166,3 +166,4 @@ let s:b64_table = [
       \ ]
 
 command! -range OSCYank <line1>,<line2>call VisualOSC52()
+command! -nargs=1 OSCYankReg call YankOSC52(getreg(<f-args>))
