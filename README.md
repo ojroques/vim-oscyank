@@ -22,6 +22,8 @@ OSC52 (as of November 2020):
 | [screen](https://www.gnu.org/software/screen/) | **yes** |
 | [tmux](https://github.com/tmux/tmux) | **yes** |
 | [Windows Terminal](https://github.com/microsoft/terminal) | **yes** |
+| [rxvt](http://rxvt.sourceforge.net/) | **yes** (to be confirmed) |
+| [urxvt](http://software.schmorp.de/pkg/rxvt-unicode.html) | [no](https://github.com/ojroques/vim-oscyank/issues/4) |
 
 ## Installation
 Using [vim-plug](https://github.com/junegunn/vim-plug):
