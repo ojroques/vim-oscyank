@@ -34,7 +34,7 @@ call plug#end()
 ```
 
 ## Usage
-Enter Visual mode, select your text and run `:OSCYank<CR>`.
+Enter Visual mode, select your text and run `:OSCYank`.
 
 You may want to map the command:
 ```vim
@@ -43,7 +43,7 @@ vnoremap <leader>c :OSCYank<CR>
 
 If you prefer to copy text from a particular register, use:
 ```vim
-:OSCYankReg +<CR>  " will copy text from register '+'
+:OSCYankReg +  " will copy text from register '+'
 ```
 
 You can also define an autocommand to immediately copy after a yank operation
