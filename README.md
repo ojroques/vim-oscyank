@@ -36,11 +36,6 @@ call plug#end()
 
 ## Usage
 
-For the impatient one, copy this line to your .vimrc. Content will be copied to clipboard after normal yank operation.
-```vim
-autocmd TextYankPost * if v:event.operator is 'y' && v:event.regname is '' | OSCYankReg " | endif
-```
-
 Enter Visual mode, select your text and run `:OSCYank`.
 
 You may want to map the command:
@@ -53,8 +48,11 @@ If you prefer to copy text from a particular register, use:
 :OSCYankReg +  " will copy text from register '+'
 ```
 
-You can also define an autocommand to immediately copy after a yank operation
-(for the unnamed register `"`, use `v:event.regname is ''`):
+For the impatient one, copy this line to your .vimrc. Content will be copied to clipboard after normal yank operation:
+```vim
+autocmd TextYankPost * if v:event.operator is 'y' && v:event.regname is '' | OSCYankReg " | endif
+```
+Or to copy to clipboard the `+` register (vim's *system clipboard* register):
 ```vim
 autocmd TextYankPost * if v:event.operator is 'y' && v:event.regname is '+' | OSCYankReg + | endif
 ```
