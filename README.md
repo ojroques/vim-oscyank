@@ -35,6 +35,12 @@ call plug#end()
 ```
 
 ## Usage
+
+For the impatient one, copy this line to your .vimrc. Content will be copied to clipboard after normal yank operation.
+```vim
+autocmd TextYankPost * if v:event.operator is 'y' && v:event.regname is '' | OSCYankReg " | endif
+```
+
 Enter Visual mode, select your text and run `:OSCYank`.
 
 You may want to map the command:
