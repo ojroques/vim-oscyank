@@ -14,7 +14,7 @@ function! YankOSC52(str)
 
   if length > limit
     echohl WarningMsg
-    echo 'WARNING: Selection has length ' . length . ' but limit is ' . limit
+    echo '[oscyank] Selection has length ' . length . ', limit is ' . limit
     echohl None
     return
   endif
@@ -33,7 +33,7 @@ function! YankOSC52(str)
 
   let osc52 = get(s:osc52_table, osc52_key, s:osc52_table['default'])(a:str)
   call s:raw_echo(osc52)
-  echo 'Copied ' . length . ' bytes'
+  echo '[oscyank] ' . length . ' characters copied'
 endfunction
 
 " Send the visual selection to the terminal's clipboard using OSC52.
