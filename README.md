@@ -4,13 +4,13 @@ A Vim / Neovim plugin to copy text to the system clipboard from anywhere using
 the [ANSI OCS52](https://invisible-island.net/xterm/ctlseqs/ctlseqs.html#h3-Operating-System-Commands)
 sequence.
 
-When this sequence is emitted by Vim, the terminal will copy the given text
-into the system clipboard. **This is totally location independent**, users can
-copy from anywhere including from remote SSH sessions.
+When this sequence is emitted by Vim, the terminal will copy the given text into
+the system clipboard. **This is totally location independent**, users can copy
+from anywhere including from remote SSH sessions.
 
-The only requirement is that the terminal must support the sequence. Here is
-a non-exhaustive list of the status of popular terminal emulators regarding
-OSC52 (as of November 2020):
+The only requirement is that the terminal must support the sequence. Here is a
+non-exhaustive list of the status of popular terminal emulators regarding OSC52
+(as of May 2021):
 
 | Terminal | OCS52 support |
 |----------|:-------------:|
@@ -24,18 +24,14 @@ OSC52 (as of November 2020):
 | [Windows Terminal](https://github.com/microsoft/terminal) | **yes** |
 | [rxvt](http://rxvt.sourceforge.net/) | **yes** (to be confirmed) |
 | [urxvt](http://software.schmorp.de/pkg/rxvt-unicode.html) | **yes** (with a script, see [here](https://github.com/ojroques/vim-oscyank/issues/4)) |
-| [wezterm](https://github.com/wez/wezterm) | [**yes**](https://wezfurlong.org/wezterm/escape-sequences.html#operating-system-command-sequences) |
 
 ## Installation
 Using [vim-plug](https://github.com/junegunn/vim-plug):
 ```vim
-call plug#begin()
 Plug 'ojroques/vim-oscyank'
-call plug#end()
 ```
 
 ## Usage
-
 Enter Visual mode, select your text and run `:OSCYank`.
 
 You may want to map the command:
@@ -45,13 +41,15 @@ vnoremap <leader>c :OSCYank<CR>
 
 If you prefer to copy text from a particular register, use:
 ```vim
-:OSCYankReg +  " will copy text from register '+'
+:OSCYankReg +  " this will copy text from register '+'
 ```
 
-For the impatient one, copy this line to your .vimrc. Content will be copied to clipboard after normal yank operation:
+For the impatient one, copy this line to your config. Content will be copied to
+clipboard after any yank operation:
 ```vim
 autocmd TextYankPost * if v:event.operator is 'y' && v:event.regname is '' | OSCYankReg " | endif
 ```
+
 Or to copy to clipboard the `+` register (vim's *system clipboard* register):
 ```vim
 autocmd TextYankPost * if v:event.operator is 'y' && v:event.regname is '+' | OSCYankReg + | endif
@@ -65,8 +63,8 @@ let g:oscyank_max_length = 1000000
 ```
 
 The plugin treats *tmux*, *screen* and *kitty* differently than other terminal
-emulators. The plugin should automatically detects the terminal used but you
-can bypass detection with:
+emulators. The plugin should automatically detects the terminal used but you can
+bypass detection with:
 ```vim
 let g:oscyank_term = 'tmux'  " or 'screen', 'kitty', 'default'
 ```
@@ -81,6 +79,16 @@ several issues I've had with them:
 * It supports [kitty](https://github.com/kovidgoyal/kitty) which has a
   [slightly modified OSC52 protocol](https://sw.kovidgoyal.net/kitty/protocol-extensions.html#pasting-to-clipboard)
   by default.
+
+## Other terminals with OSC52 support
+Other terminals that support OSC52:
+
+| Terminal | OCS52 support |
+|----------|:-------------:|
+| [foot](https://codeberg.org/dnkl/foot) | **yes** |
+| [wezterm](https://github.com/wez/wezterm) | [**yes**](https://wezfurlong.org/wezterm/escape-sequences.html#operating-system-command-sequences) |
+
+Feel free to add terminals to this list by submitting a pull request.
 
 ## Credits
 The code is derived from
