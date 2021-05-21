@@ -72,7 +72,7 @@ let g:oscyank_term = 'tmux'  " or 'screen', 'kitty', 'default'
 By default a confirmation message is echoed after text is copied. This can be
 disabled with:
 ```vim
-let g:oscyank_silent = 'true'
+let g:oscyank_silent = v:true  " or 1 for older versions of Vim
 ```
 
 ## Features
