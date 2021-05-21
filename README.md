@@ -1,7 +1,7 @@
 # vim-oscyank
 
 A Vim / Neovim plugin to copy text to the system clipboard from anywhere using
-the [ANSI OCS52](https://invisible-island.net/xterm/ctlseqs/ctlseqs.html#h3-Operating-System-Commands)
+the [ANSI OSC52](https://invisible-island.net/xterm/ctlseqs/ctlseqs.html#h3-Operating-System-Commands)
 sequence.
 
 When this sequence is emitted by Vim, the terminal will copy the given text into
@@ -12,7 +12,7 @@ The only requirement is that the terminal must support the sequence. Here is a
 non-exhaustive list of the status of popular terminal emulators regarding OSC52
 (as of May 2021):
 
-| Terminal | OCS52 support |
+| Terminal | OSC52 support |
 |----------|:-------------:|
 | [Alacritty](https://github.com/alacritty/alacritty) | **yes** |
 | [GNOME Terminal](https://github.com/GNOME/gnome-terminal) (and other VTE-based terminals) | [not yet](https://bugzilla.gnome.org/show_bug.cgi?id=795774) |
@@ -83,7 +83,7 @@ several issues I've had with them:
 ## Other terminals with OSC52 support
 Other terminals that support OSC52:
 
-| Terminal | OCS52 support |
+| Terminal | OSC52 support |
 |----------|:-------------:|
 | [foot](https://codeberg.org/dnkl/foot) | **yes** |
 | [wezterm](https://github.com/wez/wezterm) | [**yes**](https://wezfurlong.org/wezterm/escape-sequences.html#operating-system-command-sequences) |
