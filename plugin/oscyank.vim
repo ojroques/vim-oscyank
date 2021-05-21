@@ -4,6 +4,7 @@
 if exists('g:loaded_oscyank') || &compatible
   finish
 endif
+
 let g:loaded_oscyank = 1
 
 " Send a string to the terminal's clipboard using OSC52.
@@ -33,7 +34,8 @@ function! YankOSC52(str)
 
   let osc52 = get(s:osc52_table, osc52_key, s:osc52_table['default'])(a:str)
   call s:raw_echo(osc52)
-  if !exists('g:oscyank_silent') || !g:oscyank_silent
+
+  if !get(g:, 'oscyank_silent', 0)
     echo '[oscyank] ' . length . ' characters copied'
   endif
 endfunction
