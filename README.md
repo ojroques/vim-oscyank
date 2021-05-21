@@ -69,6 +69,12 @@ bypass detection with:
 let g:oscyank_term = 'tmux'  " or 'screen', 'kitty', 'default'
 ```
 
+By default a confirmation message is echoed after text is copied. This can be
+disabled with:
+```vim
+let g:oscyank_silent = 'true'
+```
+
 ## Features
 There are already Vim plugins implementing OSC52. However this plugin fixes
 several issues I've had with them:

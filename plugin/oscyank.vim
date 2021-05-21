@@ -33,7 +33,9 @@ function! YankOSC52(str)
 
   let osc52 = get(s:osc52_table, osc52_key, s:osc52_table['default'])(a:str)
   call s:raw_echo(osc52)
-  echo '[oscyank] ' . length . ' characters copied'
+  if !exists('g:oscyank_silent') || !g:oscyank_silent
+    echo '[oscyank] ' . length . ' characters copied'
+  endif
 endfunction
 
 " Send the visual selection to the terminal's clipboard using OSC52.
