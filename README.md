@@ -26,7 +26,7 @@ non-exhaustive list of the status of popular terminal emulators regarding OSC52
 | [urxvt](http://software.schmorp.de/pkg/rxvt-unicode.html) | **yes** (with a script, see [here](https://github.com/ojroques/vim-oscyank/issues/4)) |
 
 ## Installation
-Using [vim-plug](https://github.com/junegunn/vim-plug):
+With [vim-plug](https://github.com/junegunn/vim-plug):
 ```vim
 Plug 'ojroques/vim-oscyank'
 ```
