@@ -18,7 +18,7 @@ non-exhaustive list of the status of popular terminal emulators regarding OSC52
 | [GNOME Terminal](https://github.com/GNOME/gnome-terminal) (and other VTE-based terminals) | [not yet](https://bugzilla.gnome.org/show_bug.cgi?id=795774) |
 | [hterm (Chromebook)](https://chromium.googlesource.com/apps/libapps/+/master/README.md) | [**yes**](https://chromium.googlesource.com/apps/libapps/+/master/nassh/doc/FAQ.md#Is-OSC-52-aka-clipboard-operations_supported) |
 | [iTerm2](https://iterm2.com/) | **yes** |
-| [kitty](https://github.com/kovidgoyal/kitty) | [**yes**](https://sw.kovidgoyal.net/kitty/protocol-extensions.html#pasting-to-clipboard) |
+| [kitty](https://github.com/kovidgoyal/kitty) | **yes** |
 | [screen](https://www.gnu.org/software/screen/) | **yes** |
 | [tmux](https://github.com/tmux/tmux) | **yes** |
 | [Windows Terminal](https://github.com/microsoft/terminal) | **yes** |
@@ -82,9 +82,8 @@ several issues I've had with them:
 * It supports Windows.
 * It does not mandate users to overwrite their unnamed register (`"`).
 * It makes the maximum length of strings configurable.
-* It supports [kitty](https://github.com/kovidgoyal/kitty) which has a
-  [slightly modified OSC52 protocol](https://sw.kovidgoyal.net/kitty/protocol-extensions.html#pasting-to-clipboard)
-  by default.
+* It supports [kitty](https://sw.kovidgoyal.net/kitty/changelog/#id3) versions
+  below `0.22.0` which implement a slightly modified OSC52 protocol.
 
 ## Other terminals with OSC52 support
 Other terminals that support OSC52:
