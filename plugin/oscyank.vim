@@ -42,17 +42,46 @@ endfunction
 
 " Send the visual selection to the terminal's clipboard using OSC52.
 " https://stackoverflow.com/questions/1533565/how-to-get-visually-selected-text-in-vimscript
-function! VisualOSC52() range
+function! OSCYankVisual() range
   let [line_start, column_start] = getpos("'<")[1:2]
   let [line_end, column_end] = getpos("'>")[1:2]
+
   let lines = getline(line_start, line_end)
   if len(lines) == 0
     return ''
   endif
+
   let lines[-1] = lines[-1][: column_end - (&selection == 'inclusive' ? 1 : 2)]
   let lines[0] = lines[0][column_start - 1:]
+
   call YankOSC52(join(lines, "\n"))
   execute "normal! `<"
+endfunction
+
+" Send the input text object to the terminal's clipboard using OSC52.
+function! OSCYankOperator(type = '') abort
+  " Special case: if the user _has_ explicitly specified a register (or
+  " they've just supplied one of the possible defaults), OSCYank its contents.
+  if !(v:register ==# '"' || v:register ==# '*' || v:register ==# '+')
+    call YankOSC52(getreg(v:register))
+    return ''
+  endif
+
+  " Otherwise, do the usual operator dance (see `:help g@`).
+  if a:type == ''
+    set opfunc=OSCYankOperator
+    return 'g@'
+  endif
+
+  let [line_start, column_start] = getpos("'[")[1:2]
+  let [line_end, column_end] = getpos("']")[1:2]
+
+  let lines = getline(line_start, line_end)
+  if len(lines) == 0
+    return ''
+  endif
+
+  call YankOSC52(join(lines, "\n"))
 endfunction
 
 " This function base64's the entire string and wraps it in a single OSC52.
@@ -90,8 +119,9 @@ function! s:get_OSC52_DCS(str)
   return "\eP\e]52;c;" . b64 . "\x07\e\x5c"
 endfunction
 
-" Kitty requires a flush of the clipboard before accepting a new string.
-" https://sw.kovidgoyal.net/kitty/protocol-extensions.html#pasting-to-clipboard
+" Kitty versions below 0.22.0 require the clipboard to be flushed before
+" accepting a new string.
+" https://sw.kovidgoyal.net/kitty/changelog/#id33
 function! s:get_OSC52_kitty(str)
   call s:raw_echo("\e]52;c;!\x07")
   return s:get_OSC52(a:str)
@@ -170,31 +200,7 @@ let s:b64_table = [
       \ "w","x","y","z","0","1","2","3","4","5","6","7","8","9","+","/",
       \ ]
 
-function! OSCYankOperator(type = '') abort
-  " Special case: if the user _has_ explicitly specified a register (or
-  " they've just supplied one of the possible defaults), OSCYank its contents.
-  if !(v:register ==# '"' || v:register ==# '*' || v:register ==# '+')
-    call YankOSC52(getreg(v:register))
-    return ''
-  endif
-
-  " Otherwise, do the usual operator dance (see `:help g@`).
-  if a:type == ''
-    set opfunc=OSCYankOperator
-    return 'g@'
-  endif
-
-  let [line_start, column_start] = getpos("'[")[1:2]
-  let [line_end, column_end] = getpos("']")[1:2]
-  let lines = getline(line_start, line_end)
-  if len(lines) == 0
-    return ''
-  endif
-
-  call YankOSC52(join(lines, "\n"))
-endfunction
-
 nnoremap <expr> <Plug>OSCYank OSCYankOperator()
 
-command! -range OSCYank <line1>,<line2>call VisualOSC52()
+command! -range OSCYank <line1>,<line2>call OSCYankVisual()
 command! -nargs=1 OSCYankReg call YankOSC52(getreg(<f-args>))

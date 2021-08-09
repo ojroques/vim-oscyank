@@ -31,7 +31,7 @@ With [vim-plug](https://github.com/junegunn/vim-plug):
 Plug 'ojroques/vim-oscyank'
 ```
 
-## Usage
+## Basic usage
 Enter Visual mode, select your text and run `:OSCYank`.
 
 You may want to map the command:
@@ -39,6 +39,17 @@ You may want to map the command:
 vnoremap <leader>c :OSCYank<CR>
 ```
 
+You can also use the OSCYank operator:
+```vim
+nmap <leader>o <Plug>OSCYank
+```
+like so for instance:
+```
+<leader>oip  " copy the inner paragraph
+```
+(see [this PR](#15) for more details)
+
+## Copying from a register
 If you prefer to copy text from a particular register, use:
 ```vim
 :OSCYankReg +  " this will copy text from register '+'
@@ -82,7 +93,7 @@ several issues I've had with them:
 * It supports Windows.
 * It does not mandate users to overwrite their unnamed register (`"`).
 * It makes the maximum length of strings configurable.
-* It supports [kitty](https://sw.kovidgoyal.net/kitty/changelog/#id3) versions
+* It supports [kitty](https://sw.kovidgoyal.net/kitty/changelog/#id33) versions
   below `0.22.0` which implement a slightly modified OSC52 protocol.
 
 ## Other terminals with OSC52 support
