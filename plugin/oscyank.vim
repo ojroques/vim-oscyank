@@ -170,5 +170,31 @@ let s:b64_table = [
       \ "w","x","y","z","0","1","2","3","4","5","6","7","8","9","+","/",
       \ ]
 
+function! OSCYankOperator(type = '') abort
+  " Special case: if the user _has_ explicitly specified a register (or
+  " they've just supplied one of the possible defaults), OSCYank its contents.
+  if !(v:register ==# '"' || v:register ==# '*' || v:register ==# '+')
+    call YankOSC52(getreg(v:register))
+    return ''
+  endif
+
+  " Otherwise, do the usual operator dance (see `:help g@`).
+  if a:type == ''
+    set opfunc=OSCYankOperator
+    return 'g@'
+  endif
+
+  let [line_start, column_start] = getpos("'[")[1:2]
+  let [line_end, column_end] = getpos("']")[1:2]
+  let lines = getline(line_start, line_end)
+  if len(lines) == 0
+    return ''
+  endif
+
+  call YankOSC52(join(lines, "\n"))
+endfunction
+
+nnoremap <expr> <Plug>OSCYank OSCYankOperator()
+
 command! -range OSCYank <line1>,<line2>call VisualOSC52()
 command! -nargs=1 OSCYankReg call YankOSC52(getreg(<f-args>))
