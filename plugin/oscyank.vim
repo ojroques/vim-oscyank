@@ -81,6 +81,9 @@ function! OSCYankOperator(type = '') abort
     return ''
   endif
 
+  let lines[-1] = lines[-1][: column_end - (&selection == 'inclusive' ? 1 : 2)]
+  let lines[0] = lines[0][column_start - 1:]
+
   call YankOSC52(join(lines, "\n"))
 endfunction
 
