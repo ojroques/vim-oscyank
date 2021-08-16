@@ -39,6 +39,17 @@ You may want to map the command:
 vnoremap <leader>c :OSCYank<CR>
 ```
 
+You can also use the OSCYank operator:
+```vim
+nmap <leader>o <Plug>OSCYank
+```
+like so for instance:
+```
+<leader>oip  " copy the inner paragraph
+```
+(see [this PR](https://github.com/ojroques/vim-oscyank/pull/15) for more
+details)
+
 ## Copying from a register
 If you prefer to copy text from a particular register, use:
 ```vim
