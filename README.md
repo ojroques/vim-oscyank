@@ -59,12 +59,12 @@ If you prefer to copy text from a particular register, use:
 For the impatient one, copy this line to your config. Content will be copied to
 clipboard after any yank operation:
 ```vim
-autocmd TextYankPost * if v:event.operator is 'y' && v:event.regname is '' | OSCYankReg " | endif
+autocmd TextYankPost * if v:event.operator is 'y' && v:event.regname is '' | execute 'OSCYankReg "' | endif
 ```
 
 Or to copy to clipboard the `+` register (vim's *system clipboard* register):
 ```vim
-autocmd TextYankPost * if v:event.operator is 'y' && v:event.regname is '+' | OSCYankReg + | endif
+autocmd TextYankPost * if v:event.operator is 'y' && v:event.regname is '+' | execute 'OSCYankReg +' | endif
 ```
 
 ## Configuration
