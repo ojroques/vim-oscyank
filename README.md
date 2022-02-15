@@ -45,6 +45,7 @@ nmap <leader>o <Plug>OSCYank
 ```
 like so for instance:
 ```
+<leader>o_   " copy the current line
 <leader>oip  " copy the inner paragraph
 ```
 (see [this PR](https://github.com/ojroques/vim-oscyank/pull/15) for more
