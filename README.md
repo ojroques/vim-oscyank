@@ -20,6 +20,7 @@ non-exhaustive list of the status of popular terminal emulators regarding OSC52
 | [iTerm2](https://iterm2.com/) | **yes** |
 | [kitty](https://github.com/kovidgoyal/kitty) | **yes** |
 | [screen](https://www.gnu.org/software/screen/) | **yes** |
+| [Terminal.app](https://en.wikipedia.org/wiki/Terminal_(macOS)) | no, but see [workaround](https://github.com/roy2220/osc52pty) |
 | [tmux](https://github.com/tmux/tmux) | **yes** |
 | [Windows Terminal](https://github.com/microsoft/terminal) | **yes** |
 | [rxvt](http://rxvt.sourceforge.net/) | **yes** (to be confirmed) |
