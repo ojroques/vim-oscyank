@@ -29,7 +29,7 @@ non-exhaustive list of the status of popular terminal emulators regarding OSC52
 ## Installation
 With [vim-plug](https://github.com/junegunn/vim-plug):
 ```vim
-Plug 'ojroques/vim-oscyank'
+Plug 'ojroques/vim-oscyank', {'branch': 'main'}
 ```
 
 ## Basic usage
