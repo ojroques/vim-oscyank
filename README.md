@@ -19,12 +19,14 @@ non-exhaustive list of the status of popular terminal emulators regarding OSC52
 | [hterm (Chromebook)](https://chromium.googlesource.com/apps/libapps/+/master/README.md) | [**yes**](https://chromium.googlesource.com/apps/libapps/+/master/nassh/doc/FAQ.md#Is-OSC-52-aka-clipboard-operations_supported) |
 | [iTerm2](https://iterm2.com/) | **yes** |
 | [kitty](https://github.com/kovidgoyal/kitty) | **yes** |
+| [Konsole](https://konsole.kde.org/) | [not yet](https://bugs.kde.org/show_bug.cgi?id=372116) |
 | [screen](https://www.gnu.org/software/screen/) | **yes** |
 | [Terminal.app](https://en.wikipedia.org/wiki/Terminal_(macOS)) | no, but see [workaround](https://github.com/roy2220/osc52pty) |
 | [tmux](https://github.com/tmux/tmux) | **yes** |
 | [Windows Terminal](https://github.com/microsoft/terminal) | **yes** |
 | [rxvt](http://rxvt.sourceforge.net/) | **yes** (to be confirmed) |
 | [urxvt](http://software.schmorp.de/pkg/rxvt-unicode.html) | **yes** (with a script, see [here](https://github.com/ojroques/vim-oscyank/issues/4)) |
+| [xterm.js](https://xtermjs.org/) (Hyper terminal) | [not yet](https://github.com/xtermjs/xterm.js/issues/3260) |
 
 ## Installation
 With [vim-plug](https://github.com/junegunn/vim-plug):
