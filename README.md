@@ -22,6 +22,7 @@ non-exhaustive list of the status of popular terminal emulators regarding OSC52
 | [kitty](https://github.com/kovidgoyal/kitty) | **yes** |
 | [Konsole](https://konsole.kde.org/) | [not yet](https://bugs.kde.org/show_bug.cgi?id=372116) |
 | [screen](https://www.gnu.org/software/screen/) | **yes** |
+| [st](https://st.suckless.org/) | **yes** (but needs to be enabled, see [here](https://git.suckless.org/st/commit/a2a704492b9f4d2408d180f7aeeacf4c789a1d67.html)) |
 | [Terminal.app](https://en.wikipedia.org/wiki/Terminal_(macOS)) | no, but see [workaround](https://github.com/roy2220/osc52pty) |
 | [tmux](https://github.com/tmux/tmux) | **yes** |
 | [Windows Terminal](https://github.com/microsoft/terminal) | **yes** |
