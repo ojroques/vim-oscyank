@@ -21,6 +21,7 @@ non-exhaustive list of the status of popular terminal emulators regarding OSC52
 | [iTerm2](https://iterm2.com/) | **yes** |
 | [kitty](https://github.com/kovidgoyal/kitty) | **yes** |
 | [Konsole](https://konsole.kde.org/) | [not yet](https://bugs.kde.org/show_bug.cgi?id=372116) |
+| [QTerminal](https://github.com/lxqt/qterminal#readme) | [not yet](https://github.com/lxqt/qterminal/issues/839)
 | [screen](https://www.gnu.org/software/screen/) | **yes** |
 | [st](https://st.suckless.org/) | **yes** (but needs to be enabled, see [here](https://git.suckless.org/st/commit/a2a704492b9f4d2408d180f7aeeacf4c789a1d67.html)) |
 | [Terminal.app](https://en.wikipedia.org/wiki/Terminal_(macOS)) | no, but see [workaround](https://github.com/roy2220/osc52pty) |
