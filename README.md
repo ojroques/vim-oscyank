@@ -31,7 +31,7 @@ non-exhaustive list of the status of popular terminal emulators regarding OSC52
 | [urxvt](http://software.schmorp.de/pkg/rxvt-unicode.html) | **yes** (with a script, see [here](https://github.com/ojroques/vim-oscyank/issues/4)) |
 | [xterm.js](https://xtermjs.org/) (Hyper terminal) | [not yet](https://github.com/xtermjs/xterm.js/issues/3260) |
 | [wezterm](https://github.com/wez/wezterm) | [**yes**](https://wezfurlong.org/wezterm/escape-sequences.html#operating-system-command-sequences) |
-| [far2l](https://github.com/elfmz/far2l) | [**yes**] |
+| [far2l](https://github.com/elfmz/far2l) | **yes** |
 
 Feel free to add terminals to this list by submitting a pull request.
 
