@@ -16,7 +16,7 @@ non-exhaustive list of the status of popular terminal emulators regarding OSC52
 |----------|:-------------:|
 | [Alacritty](https://github.com/alacritty/alacritty) | **yes** |
 | [foot](https://codeberg.org/dnkl/foot) | **yes** |
-| [GNOME Terminal](https://github.com/GNOME/gnome-terminal) (and other VTE-based terminals) | [not yet](https://bugzilla.gnome.org/show_bug.cgi?id=795774) |
+| [GNOME Terminal](https://github.com/GNOME/gnome-terminal) (and other VTE-based terminals) | [not yet](https://gitlab.gnome.org/GNOME/vte/-/issues/2495) |
 | [hterm (Chromebook)](https://chromium.googlesource.com/apps/libapps/+/master/README.md) | [**yes**](https://chromium.googlesource.com/apps/libapps/+/master/nassh/doc/FAQ.md#Is-OSC-52-aka-clipboard-operations_supported) |
 | [iTerm2](https://iterm2.com/) | **yes** |
 | [kitty](https://github.com/kovidgoyal/kitty) | **yes** |
