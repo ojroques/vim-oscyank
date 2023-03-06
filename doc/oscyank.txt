@@ -1,0 +1,84 @@
+*oscyank.txt*	Copy text to system clipboard with OSC52
+*oscyank*
+*vim-oscyank*
+
+Author: Olivier Roques (gihtub.com/ojroques)
+License: BSD 2-Clause
+
+==============================================================================
+INTRODUCTION                                            *oscyank-introduction*
+
+A Vim / Neovim plugin to copy text to the system clipboard using the ANSI
+OSC52 sequence.
+
+The plugin wraps a piece of text inside an OSC52 sequence and writes it to
+Vim's stderr. If the terminal supports OSC52, it will then copy the text into
+the system clipboard.
+
+==============================================================================
+Usage                                                          *oscyank-usage*
+
+Add these mappings to your Vim config:
+>
+  nmap <leader>c <Plug>OSCYankOperator
+  nmap <leader>cc <leader>c_
+  vmap <leader>c <Plug>OSCYankVisual
+<
+With these mappings:
+- In normal mode, <leader>c is an operator that will copy the given
+  text to the system clipboard.
+- In normal mode, <leader>cc will copy the current line.
+- In visual mode, <leader>c will copy the current selection.
+
+==============================================================================
+Configuration                                                 *oscyank-config*
+
+                                                          *oscyank_max_length*
+|oscyank_max_length|	number (default 0)
+  The maximum length of a selection that can be copied at once. Set to `0` for
+  unlimited length.
+
+                                                              *oscyank_silent*
+|oscyank_silent|	boolean (default off)
+  If off, a message will be displayed upon successful copying of a selection.
+
+                                                                *oscyank_trim*
+|oscyank_trim|	boolean (default on)
+  If on, remove leading and trailing whitespaces from a selection before
+  copying it. Indentation is preserved.
+
+                                                               *oscyank_osc52*
+|oscyank_osc52|	string (default "\x1b]52;c;%s\x07")
+  The OSC52 format string to use. The first `%s` specifier will be replaced by
+  the selection encoded in base64.
+
+==============================================================================
+Advanced Usage                                              *oscyank-advanced*
+
+The following commands are also available:
+- `:OSCYank(text)`: copy text `text`
+- `:OSCYankRegister(register)`: copy text from register `register`
+
+For instance, to automatically copy text that was yanked into register `+`:
+>
+  autocmd TextYankPost *
+      \ if v:event.operator is 'y' && v:event.regname is '+' |
+      \ execute 'OSCYankRegister +' |
+      \ endif
+<
+
+==============================================================================
+Tmux support                                                    *oscyank-tmux*
+
+If you are using Tmux, read these steps first:
+https://github.com/tmux/tmux/wiki/Clipboard#quick-summary. Then make sure
+`set-clipboard` is set to `on` in your Tmux config: `set -s set-clipboard on`.
+
+For old versions of Tmux without the `set-clipboard` option, you can use the
+bypass escape sequence of Tmux. First, set `allow-passthrough` to `on` in your
+Tmux config: `set -g allow-passthrough on`. Then change |oscyank_osc52|:
+>
+  let g:oscyank_osc52 = "\x1bPtmux;\x1b]52;c;%s\x07\x1b\\"
+<
+
+vim:tw=78:ts=8:noet:ft=help:norl:
