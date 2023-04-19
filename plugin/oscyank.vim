@@ -20,13 +20,13 @@ let s:b64_table = [
   \ 'w','x','y','z','0','1','2','3','4','5','6','7','8','9','+','/']
 
 " -------------------- UTILS -------------------------------
-function s:echo(text, hl = 'Normal')
+function s:echo(text, hl)
   echohl a:hl
   echo printf('[oscyank] %s', a:text)
   echohl None
 endfunction
 
-function s:encode_b64(str, size = 0)
+function s:encode_b64(str, size)
   let bytes = map(range(len(a:str)), 'char2nr(a:str[v:val])')
   let b64 = []
 
@@ -117,14 +117,14 @@ function! OSCYank(text) abort
     return
   endif
 
-  let l:text_b64 = s:encode_b64(l:text)
+  let l:text_b64 = s:encode_b64(l:text, 0)
   let l:osc52 = printf(s:options.osc52, l:text_b64)
   let l:success = s:write(l:osc52)
 
   if !l:success
     call s:echo('Failed to copy selection', 'ErrorMsg')
   elseif !s:options.silent
-    call s:echo(printf('%d characters copied', strlen(l:text)))
+    call s:echo(printf('%d characters copied', strlen(l:text)), 'Normal')
   endif
 
   return l:success
