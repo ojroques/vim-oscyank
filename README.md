@@ -73,7 +73,7 @@ The available options with their default values are:
 ```vim
 let g:oscyank_max_length = 0  " maximum length of a selection
 let g:oscyank_silent     = 0  " disable message on successful copy
-let g:oscyank_trim       = 1  " trim surrounding whitespaces before copy
+let g:oscyank_trim       = 0  " trim surrounding whitespaces before copy
 let g:oscyank_osc52      = "\x1b]52;c;%s\x07"  " the OSC52 format string to use
 ```
 
