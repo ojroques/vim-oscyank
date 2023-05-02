@@ -8,16 +8,28 @@ let g:loaded_oscyank = 1
 let s:commands = {
   \ 'operator': {'block': '`[\<C-v>`]y', 'char': '`[v`]y', 'line': "'[V']y"},
   \ 'visual': {'': 'gvy', 'V': 'gvy', 'v': 'gvy', '': 'gvy'}}
-let s:options = {
-  \ 'max_length': get(g:, 'oscyank_max_length', 0),
-  \ 'silent': get(g:, 'oscyank_silent', 0),
-  \ 'trim': get(g:, 'oscyank_trim', 1),
-  \ 'osc52': get(g:, 'oscyank_osc52', "\x1b]52;c;%s\x07")}
 let s:b64_table = [
   \ 'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P',
   \ 'Q','R','S','T','U','V','W','X','Y','Z','a','b','c','d','e','f',
   \ 'g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v',
   \ 'w','x','y','z','0','1','2','3','4','5','6','7','8','9','+','/']
+
+" -------------------- OPTIONS ---------------------------
+function s:options_max_length()
+  return get(g:, 'oscyank_max_length', 0)
+endfunction
+
+function s:options_silent()
+  return get(g:, 'oscyank_silent', 0)
+endfunction
+
+function s:options_trim()
+  return get(g:, 'oscyank_trim', 1)
+endfunction
+
+function s:options_osc52()
+  return get(g:, 'oscyank_osc52', "\x1b]52;c;%s\x07")
+endfunction
 
 " -------------------- UTILS -------------------------------
 function s:echo(text, hl)
@@ -110,20 +122,20 @@ endfunction
 
 " -------------------- PUBLIC ------------------------------
 function! OSCYank(text) abort
-  let l:text = s:options.trim ? s:trim_text(a:text) : a:text
+  let l:text = s:options_trim() ? s:trim_text(a:text) : a:text
 
-  if s:options.max_length > 0 && strlen(l:text) > s:options.max_length
-    call s:echo(printf('Selection is too big: length is %d, limit is %d', strlen(l:text), s:options.max_length), 'WarningMsg')
+  if s:options_max_length() > 0 && strlen(l:text) > s:options_max_length()
+    call s:echo(printf('Selection is too big: length is %d, limit is %d', strlen(l:text), s:options_max_length()), 'WarningMsg')
     return
   endif
 
   let l:text_b64 = s:encode_b64(l:text, 0)
-  let l:osc52 = printf(s:options.osc52, l:text_b64)
+  let l:osc52 = printf(s:options_osc52(), l:text_b64)
   let l:success = s:write(l:osc52)
 
   if !l:success
     call s:echo('Failed to copy selection', 'ErrorMsg')
-  elseif !s:options.silent
+  elseif !s:options_silent()
     call s:echo(printf('%d characters copied', strlen(l:text)), 'Normal')
   endif
 
