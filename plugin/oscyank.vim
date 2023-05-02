@@ -24,7 +24,7 @@ function s:options_silent()
 endfunction
 
 function s:options_trim()
-  return get(g:, 'oscyank_trim', 1)
+  return get(g:, 'oscyank_trim', 0)
 endfunction
 
 function s:options_osc52()
