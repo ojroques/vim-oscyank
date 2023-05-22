@@ -82,7 +82,7 @@ function s:get_text(mode, type)
   let l:register = getreg('"')
   let l:visual_marks = [getpos("'<"), getpos("'>")]
 
-" Retrieve text
+  " Retrieve text
   set clipboard=
   set selection=inclusive
   silent execute printf('keepjumps normal! %s', s:commands[a:mode][a:type])
