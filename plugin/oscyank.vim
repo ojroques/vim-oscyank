@@ -114,8 +114,12 @@ endfunction
 function s:write(osc52)
   if filewritable('/dev/fd/2') == 1
     let l:success = writefile([a:osc52], '/dev/fd/2', 'b') == 0
-  else
+  elseif has('nvim')
     let l:success = chansend(v:stderr, a:osc52) > 0
+  else
+    exec("silent! !echo " . shellescape(a:osc52))
+    redraw!
+    let l:success = 1
   endif
   return l:success
 endfunction
