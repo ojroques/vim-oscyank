@@ -32,6 +32,7 @@ popular terminal emulators:
 | [wezterm](https://github.com/wez/wezterm) | [**yes**](https://wezfurlong.org/wezterm/escape-sequences.html#operating-system-command-sequences) |
 | [windows terminal](https://github.com/microsoft/terminal) | **yes** |
 | [xterm.js](https://xtermjs.org/) (Hyper terminal) | [not yet](https://github.com/xtermjs/xterm.js/issues/3260) |
+| [zellij](https://github.com/zellij-org/zellij/) | **yes** |
 
 Feel free to add terminals to this list by submitting a pull request.
 
