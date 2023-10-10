@@ -16,6 +16,7 @@ popular terminal emulators:
 | Terminal | OSC52 support |
 |----------|:-------------:|
 | [alacritty](https://github.com/alacritty/alacritty) | **yes** |
+| [contour](https://github.com/contour-terminal/contour) | **yes** |
 | [far2l](https://github.com/elfmz/far2l) | **yes** |
 | [foot](https://codeberg.org/dnkl/foot) | **yes** |
 | [gnome terminal](https://github.com/GNOME/gnome-terminal) (and other VTE-based terminals) | [not yet](https://gitlab.gnome.org/GNOME/vte/-/issues/2495) |
