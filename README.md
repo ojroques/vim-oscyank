@@ -1,6 +1,6 @@
 # vim-oscyank
 
-A Vim / Neovim plugin to copy text to the system clipboard using the [ANSI
+A Vim plugin to copy text to the system clipboard using the [ANSI
 OSC52](https://invisible-island.net/xterm/ctlseqs/ctlseqs.html#h3-Operating-System-Commands)
 sequence.
 
@@ -62,7 +62,8 @@ Using these mappings:
 * In normal mode, <kbd>\<leader\>cc</kbd> will copy the current line.
 * In visual mode, <kbd>\<leader\>c</kbd> will copy the current selection.
 
-For Neovim check out [nvim-osc52](https://github.com/ojroques/nvim-osc52). Or
+For Neovim, this plugin shouldn't be necessary anymore, since [Neovim contains native OSC 52 support since Neovim 10.0](https://github.com/neovim/neovim/pull/25872).
+For older versions of Neovim, this plugin also works. However, you should instead check out [nvim-osc52](https://github.com/ojroques/nvim-osc52). Or
 add this to your Neovim config:
 ```lua
 vim.keymap.set('n', '<leader>c', '<Plug>OSCYankOperator')
@@ -86,10 +87,25 @@ The following commands are also available:
 * `:OSCYank(text)`: copy text `text`
 * `:OSCYankRegister(register)`: copy text from register `register`
 
-For instance, to automatically copy text that was yanked into register `+`:
+For instance, to automatically copy text that was yanked into the unnamed register (`"`)
+as well as `+` and `"` when the clipboard isn't working:
+
 ```vim
-autocmd TextYankPost *
-    \ if v:event.operator is 'y' && v:event.regname is '+' |
-    \ execute 'OSCYankRegister +' |
-    \ endif
+if (!has('nvim') && !has('clipboard_working'))
+    " In the event that the clipboard isn't working, it's quite likely that
+    " the + and * registers will not be distinct from the unnamed register. In
+    " this case, a:event.regname will always be '' (empty string). However, it
+    " can be the case that `has('clipboard_working')` is false, yet `+` is
+    " still distinct, so we want to check them all.
+    let s:VimOSCYankPostRegisters = ['', '+', '*']
+    function! s:VimOSCYankPostCallback(event)
+        if a:event.operator == 'y' && index(s:VimOSCYankPostRegisters, a:event.regname) != -1
+            call OSCYankRegister(a:event.regname)
+        endif
+    endfunction
+    augroup VimOSCYankPost
+        autocmd!
+        autocmd TextYankPost * call s:VimOSCYankPostCallback(v:event)
+    augroup END
+endif
 ```
