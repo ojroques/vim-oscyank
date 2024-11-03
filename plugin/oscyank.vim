@@ -173,11 +173,3 @@ command! -register OSCYankRegister call OSCYankRegister('<reg>')
 
 nnoremap <expr> <Plug>OSCYankOperator OSCYankOperator()
 vnoremap <Plug>OSCYankVisual :OSCYankVisual<CR>
-
-" -------------------- DEPRECATION NOTICES -----------------
-nnoremap <Plug>OSCYank
-  \ :echohl WarningMsg<bar>echom "[oscyank] OSCYank is deprecated, use OSCYankOperator instead. See :h oscyank-usage."<bar>echohl None<CR>
-command! -range OSCYank execute
-  \ ':echohl WarningMsg<bar>echom "[oscyank] OSCYank is deprecated, use OSCYankVisual instead. See :h oscyank-usage."<bar>echohl None<CR>'
-command! -nargs=1 OSCYankReg execute
-  \ ':echohl WarningMsg<bar>echom "[oscyank] OSCYankReg is deprecated, use OSCYankRegister instead. See :h oscyank-usage."<bar>echohl None<CR>'
