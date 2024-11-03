@@ -8,8 +8,8 @@ License: BSD 2-Clause
 ==============================================================================
 INTRODUCTION                                            *oscyank-introduction*
 
-A Vim / Neovim plugin to copy text to the system clipboard using the ANSI
-OSC52 sequence.
+A Vim plugin to copy text to the system clipboard using the ANSI OSC52
+sequence.
 
 The plugin wraps a piece of text inside an OSC52 sequence and writes it to
 Vim's stderr. If the terminal supports OSC52, it will then copy the text into
@@ -25,8 +25,8 @@ Add these mappings to your Vim config:
   vmap <leader>c <Plug>OSCYankVisual
 <
 With these mappings:
-- In normal mode, <leader>c is an operator that will copy the given
-  text to the system clipboard.
+- In normal mode, <leader>c is an operator that will copy the given text to
+  the system clipboard.
 - In normal mode, <leader>cc will copy the current line.
 - In visual mode, <leader>c will copy the current selection.
 
