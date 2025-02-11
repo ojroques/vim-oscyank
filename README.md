@@ -75,8 +75,11 @@ if (!has('nvim') && !has('clipboard_working'))
     " can be the case that `has('clipboard_working')` is false, yet `+` is
     " still distinct, so we want to check them all.
     let s:VimOSCYankPostRegisters = ['', '+', '*']
+    " copy text to clipboard on both (y)ank and (d)elete
+    let s:VimOSCYankOperators = ['y', 'd']
     function! s:VimOSCYankPostCallback(event)
-        if a:event.operator == 'y' && index(s:VimOSCYankPostRegisters, a:event.regname) != -1
+        if index(s:VimOSCYankPostRegisters, a:event.regname) != -1
+            \ && index(s:VimOSCYankOperators, a:event.operator) != -1
             call OSCYankRegister(a:event.regname)
         endif
     endfunction
