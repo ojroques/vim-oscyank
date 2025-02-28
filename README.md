@@ -101,7 +101,7 @@ endif
 | [hterm](https://chromium.googlesource.com/apps/libapps/+/master/README.md) | [**yes**](https://chromium.googlesource.com/apps/libapps/+/master/nassh/doc/FAQ.md#Is-OSC-52-aka-clipboard-operations_supported) |
 | [iterm2](https://iterm2.com/) | **yes** |
 | [kitty](https://github.com/kovidgoyal/kitty) | **yes** |
-| [konsole](https://konsole.kde.org/) | [not yet](https://bugs.kde.org/show_bug.cgi?id=372116) |
+| [konsole](https://konsole.kde.org/) | **yes** |
 | [qterminal](https://github.com/lxqt/qterminal#readme) | [not yet](https://github.com/lxqt/qterminal/issues/839)
 | [rxvt](http://rxvt.sourceforge.net/) | **yes** |
 | [st](https://st.suckless.org/) | **yes** (but needs to be enabled, see [here](https://git.suckless.org/st/commit/a2a704492b9f4d2408d180f7aeeacf4c789a1d67.html)) |
