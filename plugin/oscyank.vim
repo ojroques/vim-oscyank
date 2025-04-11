@@ -1,3 +1,4 @@
+
 " -------------------- INIT --------------------------------
 if exists('g:loaded_oscyank')
   finish
@@ -38,6 +39,12 @@ function s:echo(text, hl)
   echohl None
 endfunction
 
+if exists(*base64_encode')
+  function s:encode_b64(str, size)
+    return a:size <= 0 ?
+          \ base64_encode(a:str) : strpart(base64_encode(a:str), a:size)
+  endfunction
+else
 function s:encode_b64(str, size)
   let bytes = map(range(len(a:str)), 'char2nr(a:str[v:val])')
   let b64 = []
@@ -74,6 +81,7 @@ function s:encode_b64(str, size)
 
   return chunked
 endfunction
+endif
 
 function s:get_text(mode, type)
   " Save user settings
